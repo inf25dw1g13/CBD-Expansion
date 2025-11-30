@@ -1,6 +1,6 @@
-#  My work assignment Title
+## Food Delivery API
 
-Repository to host the project developed for 'some class', a n^th^ year subject at SOMESCHOOL. Developed by Group ALPHA : [@MarcoOliveira](https://github.com/marcoamarooliveira), [add others].
+Repository to host the project developed for Desenvolvimento Web I, a second year subject at Univerdade da Maia. Developed by Group ALPHA : [@a047152](https://github.com/a047152), [@julianaam13](https://github.com/julianaam13) e [@xmarta19](http://github.com/xmarta19).
 
 ## Short theme description
 
