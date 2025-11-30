@@ -1,6 +1,6 @@
 ## Food Delivery API
 
-Repository to host the project developed for Desenvolvimento Web I, a second year subject at Univerdade da Maia. Developed by Group ALPHA : [@a047152](https://github.com/a047152), [@julianaam13](https://github.com/julianaam13) e [@xmarta19](http://github.com/xmarta19).
+Repositório para hospedar o projeto desenvolvido para Desenvolvimento Web I, uma disciplina de segundo ano, no curso de Informática, na Univerdade da Maia. Desenvolvimento pelo grupo: Felipe Castilho [@a047152](https://github.com/a047152), Juliana Moreira [@julianaam13](https://github.com/julianaam13) e Marta Vieira [@xmarta19](http://github.com/xmarta19).
 
 ## Short theme description
 
