@@ -1,6 +1,10 @@
 ## Food Delivery API
 
-Repositório usado para hospedar o projeto desenvolvido para Desenvolvimento Web I, uma disciplina de segundo ano, no curso de Informática, na Univerdade da Maia. Desenvolvido pelo grupo: Felipe Castilho [(GitHub)](https://github.com/a047152), Juliana Moreira [(GitHub)](https://github.com/julianaam13) e Marta Vieira [(GitHub)](http://github.com/xmarta19).
+Repositório usado para hospedar um projeto desenvolvido para Desenvolvimento Web I e Complementos de Base de Dados, no curso de Informática, na Univerdade da Maia. 
+Desenvolvido pelo grupo: 13
+Felipe Castilho [(GitHub)](https://github.com/a047152)
+Juliana Moreira [(GitHub)](https://github.com/julianaam13) 
+Marta Vieira [(GitHub)](http://github.com/xmarta19).
 
 ## Descrição curta do projeto
 
