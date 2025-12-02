@@ -6,6 +6,9 @@ Desenvolvido pelo grupo: inf25dw1g13
 * [Juliana Moreira](https://github.com/julianaam13) 
 * [Marta Vieira](http://github.com/xmarta19)
 
+Links para o projeto
+* [Repositório do Github](https://github.com/inf25dw1g13/FoodDeliveryAPI)
+* [Repositório do Docker](https://hub.docker.com/repositories/inf25dw1g13)
 
 ## Descrição curta do projeto
 
@@ -44,7 +47,7 @@ Estas são as *libraries* utilizadas no trabalho:
 * Docker
 * NodeJS
 
-## *Report*
+## **Report**
 
 ### Apresentação do Projeto
 * Chapter 1: [Apresentação do Projeto](doc/c1.md)
