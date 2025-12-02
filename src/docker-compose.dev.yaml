@@ -1,0 +1,119 @@
+services:
+  # MASTER DATABASE 
+  mariadb-master:
+    build: ./mariadb-master
+    container_name: food_delivery_master
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: food_delivery
+    command: --server-id=1
+    ports:
+      - "3309:3306"  # Mapeado para 3309 para evitar conflito com MySQL local (3306)
+    volumes:
+      - master_data:/var/lib/mysql
+    networks:
+      - food_network
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # REPLICA 1 
+  mariadb-replica1:
+    build: ./mariadb-replica
+    container_name: food_delivery_replica1
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: food_delivery
+    command: --server-id=2
+    ports:
+      - "3307:3306"
+    volumes:
+      - replica1_data:/var/lib/mysql
+    networks:
+      - food_network
+    depends_on:
+      mariadb-master:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # REPLICA 2 
+  mariadb-replica2:
+    build: ./mariadb-replica
+    container_name: food_delivery_replica2
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: food_delivery
+    command: --server-id=3
+    ports:
+      - "3308:3306"
+    volumes:
+      - replica2_data:/var/lib/mysql
+    networks:
+      - food_network
+    depends_on:
+      mariadb-master:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # MAXSCALE 
+  maxscale:
+    build: ./maxscale
+    container_name: food_delivery_maxscale
+    restart: always
+    ports:
+      - "4006:4006"
+      - "8989:8989"
+    networks:
+      - food_network
+    depends_on:
+      mariadb-master:
+        condition: service_healthy
+      mariadb-replica1:
+        condition: service_healthy
+      mariadb-replica2:
+        condition: service_healthy
+
+  # EXPRESS API
+  api:
+    build: ./express-server
+    container_name: food_delivery_api
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      DB_HOST: maxscale
+      DB_PORT: 4006
+      DB_USER: api_user
+      DB_PASSWORD: api_password
+      DB_NAME: food_delivery
+    depends_on:
+      mariadb-master:
+        condition: service_healthy
+      maxscale:
+        condition: service_started
+    networks:
+      - food_network
+
+volumes:
+  master_data:
+  replica1_data:
+  replica2_data:
+
+networks:
+  food_network:
+    driver: bridge
+

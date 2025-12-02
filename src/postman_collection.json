@@ -1,0 +1,769 @@
+{
+	"info": {
+		"_postman_id": "food-delivery-api-collection",
+		"name": "Food Delivery API - inf25dw1g13",
+		"description": "Collection completa da API REST Food Delivery - Trabalho DW1 UMAIA 2025/26",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "inf25dw1g13"
+	},
+	"item": [
+		{
+			"name": "Restaurantes",
+			"item": [
+				{
+					"name": "Listar Restaurantes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/restaurantes?especialidade=Italiana",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "restaurantes"],
+							"query": [
+								{
+									"key": "especialidade",
+									"value": "Italiana",
+									"description": "Filtrar por especialidade (opcional)"
+								}
+							]
+						},
+						"description": "Lista todos os restaurantes, com filtro opcional por especialidade"
+					},
+					"response": []
+				},
+				{
+					"name": "Obter Restaurante por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/restaurantes/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "restaurantes", "1"]
+						},
+						"description": "Obtém um restaurante específico pelo ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Pratos de um Restaurante",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/restaurantes/1/pratos",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "restaurantes", "1", "pratos"]
+						},
+						"description": "Lista todos os pratos de um restaurante específico"
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Restaurante",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Pizzaria Napolitana\",\n  \"morada\": \"Rua de Santa Catarina, 123\",\n  \"codigo_postal\": \"4000-450\",\n  \"cidade\": \"Porto\",\n  \"telefone\": \"912345678\",\n  \"email\": \"info@pizzarianapolitana.pt\",\n  \"especialidade\": \"Italiana\",\n  \"descricao\": \"Pizza autêntica napolitana com forno a lenha\",\n  \"taxa_entrega\": 2.50,\n  \"pedido_minimo\": 12.00,\n  \"ativo\": true\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/restaurantes",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "restaurantes"]
+						},
+						"description": "Cria um novo restaurante"
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Restaurante",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Trattoria Bella Italia\",\n  \"morada\": \"Rua da República, 45\",\n  \"codigo_postal\": \"4000-123\",\n  \"cidade\": \"Porto\",\n  \"telefone\": \"912345678\",\n  \"email\": \"contacto@bellaitalia.pt\",\n  \"especialidade\": \"Italiana\",\n  \"descricao\": \"Autêntica cozinha italiana desde 1995\",\n  \"taxa_entrega\": 2.50,\n  \"pedido_minimo\": 15.00,\n  \"ativo\": true\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/restaurantes/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "restaurantes", "1"]
+						},
+						"description": "Atualiza um restaurante existente"
+					},
+					"response": []
+				},
+				{
+					"name": "Apagar Restaurante",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/restaurantes/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "restaurantes", "1"]
+						},
+						"description": "Apaga um restaurante"
+					},
+					"response": []
+				}
+			],
+			"description": "Operações CRUD para restaurantes"
+		},
+		{
+			"name": "Pratos",
+			"item": [
+				{
+					"name": "Listar Pratos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/pratos?restaurante_id=1&vegetariano=true",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "pratos"],
+							"query": [
+								{
+									"key": "restaurante_id",
+									"value": "1",
+									"description": "Filtrar por restaurante (opcional)"
+								},
+								{
+									"key": "vegetariano",
+									"value": "true",
+									"description": "Filtrar pratos vegetarianos (opcional)"
+								}
+							]
+						},
+						"description": "Lista todos os pratos, com filtros opcionais"
+					},
+					"response": []
+				},
+				{
+					"name": "Obter Prato por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/pratos/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "pratos", "1"]
+						},
+						"description": "Obtém um prato específico pelo ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Prato",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"restaurante_id\": 1,\n  \"nome\": \"Pizza Margherita\",\n  \"descricao\": \"Pizza clássica com tomate, mozzarella e manjericão\",\n  \"preco\": 8.50,\n  \"vegetariano\": true,\n  \"disponivel\": true\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/pratos",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "pratos"]
+						},
+						"description": "Cria um novo prato"
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Prato",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"preco\": 9.00,\n  \"disponivel\": true\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/pratos/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "pratos", "1"]
+						},
+						"description": "Atualiza um prato existente (restaurante_id não pode ser alterado)"
+					},
+					"response": []
+				},
+				{
+					"name": "Apagar Prato",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/pratos/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "pratos", "1"]
+						},
+						"description": "Apaga um prato"
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Ingredientes de um Prato",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/pratos/1/ingredientes",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "pratos", "1", "ingredientes"]
+						},
+						"description": "Lista todos os ingredientes de um prato (relação m:n)"
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar Ingrediente a um Prato",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"ingrediente_id\": 1,\n  \"quantidade\": 200,\n  \"obrigatorio\": true\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/pratos/1/ingredientes",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "pratos", "1", "ingredientes"]
+						},
+						"description": "Adiciona um ingrediente a um prato (relação m:n)"
+					},
+					"response": []
+				},
+				{
+					"name": "Remover Ingrediente de um Prato",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/pratos/1/ingredientes?ingrediente_id=1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "pratos", "1", "ingredientes"],
+							"query": [
+								{
+									"key": "ingrediente_id",
+									"value": "1",
+									"description": "ID do ingrediente a remover"
+								}
+							]
+						},
+						"description": "Remove um ingrediente de um prato (relação m:n)"
+					},
+					"response": []
+				}
+			],
+			"description": "Operações CRUD para pratos e relação m:n com ingredientes"
+		},
+		{
+			"name": "Ingredientes",
+			"item": [
+				{
+					"name": "Listar Ingredientes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/ingredientes?alergeno=true",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "ingredientes"],
+							"query": [
+								{
+									"key": "alergeno",
+									"value": "true",
+									"description": "Filtrar por ingredientes alergénios (opcional)"
+								}
+							]
+						},
+						"description": "Lista todos os ingredientes, com filtro opcional por alergénio"
+					},
+					"response": []
+				},
+				{
+					"name": "Obter Ingrediente por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/ingredientes/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "ingredientes", "1"]
+						},
+						"description": "Obtém um ingrediente específico pelo ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Ingrediente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Tomate\",\n  \"unidade\": \"g\",\n  \"alergeno\": false\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/ingredientes",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "ingredientes"]
+						},
+						"description": "Cria um novo ingrediente"
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Ingrediente",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Tomate Orgânico\",\n  \"unidade\": \"g\",\n  \"alergeno\": false\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/ingredientes/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "ingredientes", "1"]
+						},
+						"description": "Atualiza um ingrediente existente"
+					},
+					"response": []
+				},
+				{
+					"name": "Apagar Ingrediente",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/ingredientes/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "ingredientes", "1"]
+						},
+						"description": "Apaga um ingrediente"
+					},
+					"response": []
+				}
+			],
+			"description": "Operações CRUD para ingredientes"
+		},
+		{
+			"name": "Clientes",
+			"item": [
+				{
+					"name": "Listar Clientes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/clientes",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "clientes"]
+						},
+						"description": "Lista todos os clientes"
+					},
+					"response": []
+				},
+				{
+					"name": "Obter Cliente por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/clientes/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "clientes", "1"]
+						},
+						"description": "Obtém um cliente específico pelo ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Cliente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"João Silva\",\n  \"email\": \"joao.silva@email.com\",\n  \"telefone\": \"912345678\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/clientes",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "clientes"]
+						},
+						"description": "Cria um novo cliente"
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Cliente",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"João Silva\",\n  \"email\": \"joao.silva@email.com\",\n  \"telefone\": \"912999999\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/clientes/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "clientes", "1"]
+						},
+						"description": "Atualiza um cliente existente"
+					},
+					"response": []
+				},
+				{
+					"name": "Apagar Cliente",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/clientes/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "clientes", "1"]
+						},
+						"description": "Apaga um cliente"
+					},
+					"response": []
+				}
+			],
+			"description": "Operações CRUD para clientes"
+		},
+		{
+			"name": "Pedidos",
+			"item": [
+				{
+					"name": "Listar Pedidos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/pedidos?estado=pendente",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "pedidos"],
+							"query": [
+								{
+									"key": "estado",
+									"value": "pendente",
+									"description": "Filtrar por estado (opcional): pendente, confirmado, a_preparar, entregue, cancelado"
+								}
+							]
+						},
+						"description": "Lista todos os pedidos, com filtro opcional por estado"
+					},
+					"response": []
+				},
+				{
+					"name": "Obter Pedido por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/pedidos/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "pedidos", "1"]
+						},
+						"description": "Obtém um pedido específico pelo ID (inclui lista de pratos)"
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Pedido",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cliente_id\": 1,\n  \"restaurante_id\": 1,\n  \"morada_entrega_id\": 1,\n  \"metodo_pagamento\": \"mbway\",\n  \"pratos\": [\n    {\n      \"prato_id\": 1,\n      \"quantidade\": 2,\n      \"observacoes_item\": \"Sem cebola\"\n    },\n    {\n      \"prato_id\": 2,\n      \"quantidade\": 1\n    }\n  ],\n  \"observacoes\": \"Entregar na porta\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/pedidos",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "pedidos"]
+						},
+						"description": "Cria um novo pedido. O total é calculado automaticamente. O array 'pratos' é obrigatório e deve conter pelo menos um item."
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Pedido",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"estado\": \"confirmado\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/pedidos/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "pedidos", "1"]
+						},
+						"description": "Atualiza um pedido existente (geralmente usado para alterar o estado)"
+					},
+					"response": []
+				},
+				{
+					"name": "Apagar Pedido",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/pedidos/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "pedidos", "1"]
+						},
+						"description": "Apaga um pedido"
+					},
+					"response": []
+				}
+			],
+			"description": "Operações CRUD para pedidos"
+		},
+		{
+			"name": "Entregas",
+			"item": [
+				{
+					"name": "Listar Entregas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/entregas",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "entregas"]
+						},
+						"description": "Lista todas as entregas"
+					},
+					"response": []
+				},
+				{
+					"name": "Obter Entrega por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/entregas/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "entregas", "1"]
+						},
+						"description": "Obtém uma entrega específica pelo ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Entrega",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cliente_id\": 1,\n  \"restaurante_id\": 1,\n  \"morada_entrega_id\": 1,\n  \"estado\": \"pendente\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/entregas",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "entregas"]
+						},
+						"description": "Cria uma nova entrega"
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Entrega",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"estado\": \"a_caminho\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/entregas/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "entregas", "1"]
+						},
+						"description": "Atualiza uma entrega existente"
+					},
+					"response": []
+				},
+				{
+					"name": "Apagar Entrega",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/entregas/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "entregas", "1"]
+						},
+						"description": "Apaga uma entrega"
+					},
+					"response": []
+				}
+			],
+			"description": "Operações CRUD para entregas"
+		},
+		{
+			"name": "Health Check",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/health",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["health"]
+						},
+						"description": "Verifica o estado da API e conexão com a base de dados"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
