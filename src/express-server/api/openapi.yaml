@@ -1,0 +1,1296 @@
+openapi: 3.0.0
+info:
+  title: Food Delivery API
+  version: 1.0.0
+  description: API REST para sistema de delivery - Trabalho DW1 UMAIA 2025/26
+  contact:
+    name: inf25dw1g13
+    email: a046756@umaia.pt
+
+components:
+  schemas:
+    Restaurante:
+      title: Restaurante
+      type: object
+      required:
+        - nome
+        - morada
+        - telefone
+        - especialidade
+      additionalProperties: false
+      properties:
+        id:
+          type: integer
+          readOnly: true
+          description: ID do restaurante (gerado automaticamente)
+        nome:
+          type: string
+          minLength: 3
+          maxLength: 200
+          description: Nome do restaurante
+          example: "Pizzaria Napolitana"
+        morada:
+          type: string
+          description: Morada completa do restaurante
+          example: "Rua de Santa Catarina, 123"
+        codigo_postal:
+          type: string
+          description: "(Opcional) Código postal"
+          example: "4000-450"
+        cidade:
+          type: string
+          description: "(Opcional) Cidade"
+          example: "Porto"
+        telefone:
+          type: string
+          description: "Número de telefone"
+          example: "912345678"
+        email:
+          type: string
+          format: email
+          description: "(Opcional) Email de contacto"
+          example: "info@pizzarianapolitana.pt"
+        especialidade:
+          type: string
+          description: "Tipo de cozinha (ex: Italiana, Chinesa, Hambúrgueres)"
+          example: "Italiana"
+        descricao:
+          type: string
+          description: "(Opcional) Descrição do restaurante"
+          example: "Pizza autêntica napolitana com forno a lenha"
+        taxa_entrega:
+          type: number
+          format: float
+          description: "(Opcional) Taxa de entrega em euros (padrão: 0.00)"
+          example: 2.50
+        pedido_minimo:
+          type: number
+          format: float
+          description: "(Opcional) Valor mínimo do pedido em euros (padrão: 0.00)"
+          example: 12.00
+        ativo:
+          type: boolean
+          default: true
+          description: "(Opcional) Se o restaurante está ativo (padrão: true)"
+          example: true
+
+    Prato:
+      title: Prato
+      type: object
+      required:
+        - restaurante_id
+        - nome
+        - preco
+      additionalProperties: false
+      properties:
+        id:
+          type: integer
+          readOnly: true
+          description: ID do prato (gerado automaticamente)
+        restaurante_id:
+          type: integer
+          description: ID do restaurante a que pertence o prato
+          example: 1
+        nome:
+          type: string
+          description: Nome do prato
+          example: "Pizza Margherita"
+        descricao:
+          type: string
+          description: "(Opcional) Descrição do prato"
+          example: "Pizza clássica com tomate, mozzarella e manjericão"
+        preco:
+          type: number
+          format: float
+          description: "Preço do prato em euros"
+          example: 8.50
+        vegetariano:
+          type: boolean
+          default: false
+          description: "(Opcional) Se o prato é vegetariano (padrão: false)"
+          example: true
+        disponivel:
+          type: boolean
+          default: true
+          description: "(Opcional) Se o prato está disponível (padrão: true)"
+          example: true
+
+    Cliente:
+      title: Cliente
+      type: object
+      required:
+        - nome
+        - email
+        - telefone
+      additionalProperties: false
+      properties:
+        id:
+          type: integer
+          readOnly: true
+          description: ID do cliente (gerado automaticamente)
+        nome:
+          type: string
+          description: Nome completo do cliente
+          example: "João Silva"
+        email:
+          type: string
+          format: email
+          description: "Email do cliente (deve ser único)"
+          example: "joao.silva@email.com"
+        telefone:
+          type: string
+          description: "Número de telefone do cliente"
+          example: "912345678"
+
+    Ingrediente:
+      title: Ingrediente
+      type: object
+      required:
+        - nome
+      additionalProperties: false
+      properties:
+        id:
+          type: integer
+          readOnly: true
+          description: ID do ingrediente (gerado automaticamente)
+        nome:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: Nome do ingrediente (deve ser único)
+          example: "Tomate"
+        unidade:
+          type: string
+          enum: [g, kg, ml, l, unidade, fatia]
+          default: g
+          description: "(Opcional) Unidade de medida (padrão: g)"
+          example: "g"
+        alergeno:
+          type: boolean
+          default: false
+          description: "(Opcional) Se o ingrediente é um alergénio (padrão: false)"
+          example: false
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Data de criação do ingrediente
+
+    Pedido:
+      title: Pedido
+      type: object
+      required:
+        - cliente_id
+        - restaurante_id
+        - morada_entrega_id
+        - metodo_pagamento
+        - pratos
+      additionalProperties: false
+      properties:
+        id:
+          type: integer
+          readOnly: true
+          description: ID do pedido (gerado automaticamente)
+        cliente_id:
+          type: integer
+          description: ID do cliente que fez o pedido
+          example: 1
+        restaurante_id:
+          type: integer
+          description: ID do restaurante
+          example: 1
+        morada_entrega_id:
+          type: integer
+          description: ID da morada de entrega
+          example: 1
+        metodo_pagamento:
+          type: string
+          enum: [cartao, mbway, dinheiro, carteira]
+          description: "Método de pagamento"
+          example: "mbway"
+        pratos:
+          type: array
+          minItems: 1
+          description: "Array de pratos do pedido (obrigatório)"
+          items:
+            type: object
+            required:
+              - prato_id
+            properties:
+              prato_id:
+                type: integer
+                description: ID do prato
+                example: 1
+              quantidade:
+                type: integer
+                minimum: 1
+                default: 1
+                description: "Quantidade do prato (padrão: 1)"
+                example: 2
+              observacoes_item:
+                type: string
+                description: "(Opcional) Observações específicas deste item"
+                example: "Sem cebola"
+        total:
+          type: number
+          format: float
+          readOnly: true
+          description: "Total do pedido em euros (calculado automaticamente)"
+          example: 27.50
+        estado:
+          type: string
+          enum: [pendente, confirmado, a_preparar, entregue, cancelado]
+          readOnly: true
+          description: "Estado do pedido (padrão: pendente)"
+          example: "pendente"
+        observacoes:
+          type: string
+          description: "(Opcional) Observações gerais do pedido"
+          example: "Entregar na porta"
+
+    Entrega:
+      title: Entrega
+      type: object
+      required:
+        - cliente_id
+        - restaurante_id
+        - morada_entrega_id
+      additionalProperties: false
+      properties:
+        id:
+          type: integer
+          readOnly: true
+          description: ID da entrega (gerado automaticamente)
+        cliente_id:
+          type: integer
+          description: ID do cliente ligado à entrega
+          example: 1
+        restaurante_id:
+          type: integer
+          description: ID do restaurante que prepara a encomenda
+          example: 1
+        morada_entrega_id:
+          type: integer
+          description: ID da morada de entrega associada
+          example: 1
+        estado:
+          type: string
+          enum: [pendente, a_caminho, entregue, cancelada]
+          description: Estado atual da entrega
+          example: "pendente"
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Data de criação da entrega
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Data da última atualização da entrega
+
+    Error:
+      title: Error
+      type: object
+      additionalProperties: false
+      properties:
+        error:
+          type: string
+      # Schema é reutilizado em várias respostas de erro .
+      # As respostas usam $ref para apontar para este modelo, todas as mensagens ficam com o mesmo formato
+
+  examples:
+    RestauranteExample01:
+      value:
+        nome: "Pizzaria Napolitana"
+        morada: "Rua de Santa Catarina, 123"
+        codigo_postal: "4000-450"
+        cidade: "Porto"
+        telefone: "912345678"
+        email: "info@pizzarianapolitana.pt"
+        especialidade: "Italiana"
+        descricao: "Pizza autêntica napolitana com forno a lenha"
+        taxa_entrega: 2.50
+        pedido_minimo: 12.00
+        ativo: true
+
+    RestauranteExample02:
+      value:
+        nome: "Burger House"
+        morada: "Avenida da Boavista, 500"
+        telefone: "987654321"
+        especialidade: "Hambúrgueres"
+        taxa_entrega: 3.00
+        pedido_minimo: 10.00
+
+    PratoExample01:
+      value:
+        restaurante_id: 1
+        nome: "Pizza Margherita"
+        descricao: "Pizza clássica com tomate, mozzarella e manjericão"
+        preco: 8.50
+        vegetariano: true
+        disponivel: true
+
+    PratoExample02:
+      value:
+        restaurante_id: 2
+        nome: "Burger Clássico"
+        descricao: "Hambúrguer de carne, queijo, alface, tomate e molho especial"
+        preco: 6.90
+        vegetariano: false
+        disponivel: true
+
+    ClienteExample01:
+      value:
+        nome: "João Silva"
+        email: "joao.silva@email.com"
+        telefone: "912345678"
+
+    ClienteExample02:
+      value:
+        nome: "Maria Santos"
+        email: "maria.santos@email.com"
+        telefone: "987654321"
+
+    IngredienteExample01:
+      value:
+        nome: "Tomate"
+        unidade: "g"
+        alergeno: false
+
+    IngredienteExample02:
+      value:
+        nome: "Amendoim"
+        unidade: "g"
+        alergeno: true
+
+    PedidoExample01:
+      value:
+        cliente_id: 1
+        restaurante_id: 1
+        morada_entrega_id: 1
+        metodo_pagamento: "mbway"
+        pratos:
+          - prato_id: 1
+            quantidade: 2
+            observacoes_item: "Sem cebola"
+          - prato_id: 2
+            quantidade: 1
+        observacoes: "Entregar na porta"
+
+    PedidoExample02:
+      value:
+        cliente_id: 2
+        restaurante_id: 2
+        morada_entrega_id: 2
+        metodo_pagamento: "cartao"
+        pratos:
+          - prato_id: 6
+            quantidade: 1
+          - prato_id: 7
+            quantidade: 2
+            observacoes_item: "Bem passado"
+        observacoes: "Entregar na porta"
+
+    EntregaExample01:
+      value:
+        cliente_id: 1
+        restaurante_id: 1
+        morada_entrega_id: 1
+        estado: "pendente"
+
+    EntregaExample02:
+      value:
+        cliente_id: 2
+        restaurante_id: 3
+        morada_entrega_id: 4
+        estado: "a_caminho"
+
+tags:
+  - name: Restaurantes
+  - name: Pratos
+  - name: Clientes
+  - name: Pedidos
+  - name: Ingredientes
+  - name: Entregas
+
+paths:
+  /api/restaurantes/{id}:
+    get:
+      tags: [Restaurantes]
+      x-eov-operation-handler: controllers/RestaurantesController
+      operationId: getRestaurante
+      summary: Obter restaurante por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          examples:
+            one:
+              value: 1
+              summary: Retrieve Restaurante id 1
+            two:
+              value: 2
+              summary: Retrieve Restaurante id 2
+      responses:
+        '200':
+          description: Restaurante encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Restaurante'
+        '404':
+          description: Não encontrado
+    put:
+      tags: [Restaurantes]
+      x-eov-operation-handler: controllers/RestaurantesController
+      operationId: updateRestaurante
+      summary: Atualizar restaurante
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          examples:
+            one:
+              value: 1
+              summary: Update Restaurante id 1
+            two:
+              value: 2
+              summary: Update Restaurante id 2
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Restaurante'
+            examples:
+              RestauranteExample01:
+                $ref: '#/components/examples/RestauranteExample01'
+              RestauranteExample02:
+                $ref: '#/components/examples/RestauranteExample02'
+      responses:
+        '200':
+          description: Atualizado
+    delete:
+      tags: [Restaurantes]
+      x-eov-operation-handler: controllers/RestaurantesController
+      operationId: deleteRestaurante
+      summary: Apagar restaurante
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          examples:
+            one:
+              value: 1
+              summary: Delete Restaurante id 1
+            two:
+              value: 2
+              summary: Delete Restaurante id 2
+      responses:
+        '204':
+          description: Removido
+
+  /api/restaurantes/{id}/pratos:
+    get:
+      tags: [Restaurantes]
+      x-eov-operation-handler: controllers/RestaurantesController
+      operationId: getPratosRestaurante
+      summary: Listar pratos de um restaurante
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          examples:
+            one:
+              value: 1
+              summary: Listar pratos do restaurante id 1
+            two:
+              value: 2
+              summary: Listar pratos do restaurante id 2
+      responses:
+        '200':
+          description: Lista de pratos do restaurante
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Prato'
+        '404':
+          description: Restaurante não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/restaurantes:
+    get:
+      tags: [Restaurantes]
+      x-eov-operation-handler: controllers/RestaurantesController
+      operationId: getRestaurantes
+      summary: Listar restaurantes
+      parameters:
+        - name: especialidade
+          in: query
+          schema:
+            type: string
+          example: "Italiana"
+          description: Filtrar por especialidade (opcional)
+        - name: limite
+          in: query
+          schema:
+            type: integer
+          description: Limitar número de resultados (opcional)
+      responses:
+        '200':
+          description: Lista de restaurantes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Restaurante'
+    post:
+      tags: [Restaurantes]
+      x-eov-operation-handler: controllers/RestaurantesController
+      operationId: createRestaurante
+      summary: Criar restaurante
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Restaurante'
+            examples:
+              RestauranteExample01:
+                $ref: '#/components/examples/RestauranteExample01'
+              RestauranteExample02:
+                $ref: '#/components/examples/RestauranteExample02'
+      responses:
+        '201':
+          description: Restaurante criado
+
+  /api/pratos:
+    get:
+      tags: [Pratos]
+      x-eov-operation-handler: controllers/PratosController
+      operationId: getPratos
+      summary: Listar pratos
+      parameters:
+        - name: restaurante_id
+          in: query
+          schema:
+            type: integer
+        - name: categoria_id
+          in: query
+          schema:
+            type: integer
+        - name: vegetariano
+          in: query
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Lista de pratos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Prato'
+    post:
+      tags: [Pratos]
+      x-eov-operation-handler: controllers/PratosController
+      operationId: createPrato
+      summary: Criar prato
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Prato'
+            examples:
+              PratoExample01:
+                $ref: '#/components/examples/PratoExample01'
+              PratoExample02:
+                $ref: '#/components/examples/PratoExample02'
+      responses:
+        '201':
+          description: Prato criado
+
+  /api/pratos/{id}:
+    get:
+      tags: [Pratos]
+      x-eov-operation-handler: controllers/PratosController
+      operationId: getPrato
+      summary: Obter prato por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          examples:
+            one:
+              value: 1
+              summary: Retrieve Prato id 1
+            two:
+              value: 2
+              summary: Retrieve Prato id 2
+      responses:
+        '200':
+          description: Prato encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prato'
+    put:
+      tags: [Pratos]
+      x-eov-operation-handler: controllers/PratosController
+      operationId: updatePrato
+      summary: Atualizar prato
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          examples:
+            one:
+              value: 1
+              summary: Update Prato id 1
+            two:
+              value: 2
+              summary: Update Prato id 2
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Prato'
+            examples:
+              PratoExample01:
+                $ref: '#/components/examples/PratoExample01'
+              PratoExample02:
+                $ref: '#/components/examples/PratoExample02'
+      responses:
+        '200':
+          description: Atualizado
+    delete:
+      tags: [Pratos]
+      x-eov-operation-handler: controllers/PratosController
+      operationId: deletePrato
+      summary: Apagar prato
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          examples:
+            one:
+              value: 1
+              summary: Delete Prato id 1
+            two:
+              value: 2
+              summary: Delete Prato id 2
+      responses:
+        '204':
+          description: Removido
+
+  /api/pratos/{id}/ingredientes:
+    get:
+      tags: [Pratos]
+      x-eov-operation-handler: controllers/PratosController
+      operationId: getIngredientesPrato
+      summary: Listar ingredientes de um prato (Relação m:n)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: Lista de ingredientes do prato
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    nome:
+                      type: string
+                    unidade:
+                      type: string
+                    quantidade:
+                      type: number
+                    obrigatorio:
+                      type: boolean
+    post:
+      tags: [Pratos]
+      x-eov-operation-handler: controllers/PratosController
+      operationId: addIngredientePrato
+      summary: Adicionar ingrediente a um prato (Relação m:n)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - ingrediente_id
+                - quantidade
+              properties:
+                ingrediente_id:
+                  type: integer
+                  description: ID do ingrediente
+                quantidade:
+                  type: number
+                  description: Quantidade do ingrediente
+                obrigatorio:
+                  type: boolean
+                  default: true
+                  description: Se o ingrediente é obrigatório
+      responses:
+        '201':
+          description: Ingrediente adicionado ao prato
+    delete:
+      tags: [Pratos]
+      x-eov-operation-handler: controllers/PratosController
+      operationId: removeIngredientePrato
+      summary: Remover ingrediente de um prato (Relação m:n)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          description: ID do prato
+        - name: ingrediente_id
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          description: ID do ingrediente a remover
+      responses:
+        '204':
+          description: Ingrediente removido do prato com sucesso (sem conteúdo no body)
+        '404':
+          description: Prato ou ingrediente não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '400':
+          description: Erro na requisição
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/clientes:
+    get:
+      tags: [Clientes]
+      x-eov-operation-handler: controllers/ClientesController
+      operationId: getClientes
+      summary: Listar clientes
+      responses:
+        '200':
+          description: Lista de clientes
+    post:
+      tags: [Clientes]
+      x-eov-operation-handler: controllers/ClientesController
+      operationId: createCliente
+      summary: Criar cliente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cliente'
+            examples:
+              ClienteExample01:
+                $ref: '#/components/examples/ClienteExample01'
+              ClienteExample02:
+                $ref: '#/components/examples/ClienteExample02'
+      responses:
+        '201':
+          description: Cliente criado
+
+  /api/clientes/{id}:
+    get:
+      tags: [Clientes]
+      x-eov-operation-handler: controllers/ClientesController
+      operationId: getCliente
+      summary: Obter cliente por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          examples:
+            one:
+              value: 1
+              summary: Retrieve Cliente id 1
+            two:
+              value: 2
+              summary: Retrieve Cliente id 2
+      responses:
+        '200':
+          description: Cliente encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cliente'
+    put:
+      tags: [Clientes]
+      x-eov-operation-handler: controllers/ClientesController
+      operationId: updateCliente
+      summary: Atualizar cliente
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          examples:
+            one:
+              value: 1
+              summary: Update Cliente id 1
+            two:
+              value: 2
+              summary: Update Cliente id 2
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cliente'
+            examples:
+              ClienteExample01:
+                $ref: '#/components/examples/ClienteExample01'
+              ClienteExample02:
+                $ref: '#/components/examples/ClienteExample02'
+      responses:
+        '200':
+          description: Atualizado
+    delete:
+      tags: [Clientes]
+      x-eov-operation-handler: controllers/ClientesController
+      operationId: deleteCliente
+      summary: Apagar cliente
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          examples:
+            one:
+              value: 1
+              summary: Delete Cliente id 1
+            two:
+              value: 2
+              summary: Delete Cliente id 2
+      responses:
+        '204':
+          description: Removido
+
+  /api/entregas:
+    get:
+      tags: [Entregas]
+      x-eov-operation-handler: controllers/EntregasController
+      operationId: getEntregas
+      summary: Listar entregas
+      responses:
+        '200':
+          description: Lista de entregas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Entrega'
+    post:
+      tags: [Entregas]
+      x-eov-operation-handler: controllers/EntregasController
+      operationId: createEntrega
+      summary: Criar entrega
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Entrega'
+            examples:
+              EntregaExample01:
+                $ref: '#/components/examples/EntregaExample01'
+              EntregaExample02:
+                $ref: '#/components/examples/EntregaExample02'
+      responses:
+        '201':
+          description: Entrega criada
+
+  /api/entregas/{id}:
+    get:
+      tags: [Entregas]
+      x-eov-operation-handler: controllers/EntregasController
+      operationId: getEntrega
+      summary: Obter entrega por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: Entrega encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entrega'
+        '404':
+          description: Não encontrada
+    put:
+      tags: [Entregas]
+      x-eov-operation-handler: controllers/EntregasController
+      operationId: updateEntrega
+      summary: Atualizar entrega
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Entrega'
+            examples:
+              EntregaExample01:
+                $ref: '#/components/examples/EntregaExample01'
+      responses:
+        '200':
+          description: Entrega atualizada
+    delete:
+      tags: [Entregas]
+      x-eov-operation-handler: controllers/EntregasController
+      operationId: deleteEntrega
+      summary: Apagar entrega
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '204':
+          description: Entrega removida
+
+  /api/ingredientes:
+    get:
+      tags: [Ingredientes]
+      x-eov-operation-handler: controllers/IngredientesController
+      operationId: getIngredientes
+      summary: Listar ingredientes
+      parameters:
+        - name: alergeno
+          in: query
+          schema:
+            type: boolean
+          description: Filtrar por ingredientes alergénios (opcional)
+          example: true
+      responses:
+        '200':
+          description: Lista de ingredientes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ingrediente'
+    post:
+      tags: [Ingredientes]
+      x-eov-operation-handler: controllers/IngredientesController
+      operationId: createIngrediente
+      summary: Criar ingrediente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ingrediente'
+            examples:
+              IngredienteExample01:
+                $ref: '#/components/examples/IngredienteExample01'
+              IngredienteExample02:
+                $ref: '#/components/examples/IngredienteExample02'
+      responses:
+        '201':
+          description: Ingrediente criado
+
+  /api/ingredientes/{id}:
+    get:
+      tags: [Ingredientes]
+      x-eov-operation-handler: controllers/IngredientesController
+      operationId: getIngrediente
+      summary: Obter ingrediente por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          examples:
+            one:
+              value: 1
+              summary: Retrieve Ingrediente id 1
+            two:
+              value: 2
+              summary: Retrieve Ingrediente id 2
+      responses:
+        '200':
+          description: Ingrediente encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ingrediente'
+        '404':
+          description: Não encontrado
+    put:
+      tags: [Ingredientes]
+      x-eov-operation-handler: controllers/IngredientesController
+      operationId: updateIngrediente
+      summary: Atualizar ingrediente
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          examples:
+            one:
+              value: 1
+              summary: Update Ingrediente id 1
+            two:
+              value: 2
+              summary: Update Ingrediente id 2
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ingrediente'
+            examples:
+              IngredienteExample01:
+                $ref: '#/components/examples/IngredienteExample01'
+              IngredienteExample02:
+                $ref: '#/components/examples/IngredienteExample02'
+      responses:
+        '200':
+          description: Atualizado
+    delete:
+      tags: [Ingredientes]
+      x-eov-operation-handler: controllers/IngredientesController
+      operationId: deleteIngrediente
+      summary: Apagar ingrediente
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          examples:
+            one:
+              value: 1
+              summary: Delete Ingrediente id 1
+            two:
+              value: 2
+              summary: Delete Ingrediente id 2
+      responses:
+        '204':
+          description: Removido
+
+  /api/pedidos:
+    get:
+      tags: [Pedidos]
+      x-eov-operation-handler: controllers/PedidosController
+      operationId: getPedidos
+      summary: Listar pedidos
+      parameters:
+        - name: estado
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de pedidos
+    post:
+      tags: [Pedidos]
+      x-eov-operation-handler: controllers/PedidosController
+      operationId: createPedido
+      summary: Criar pedido
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pedido'
+            examples:
+              PedidoExample01:
+                $ref: '#/components/examples/PedidoExample01'
+              PedidoExample02:
+                $ref: '#/components/examples/PedidoExample02'
+      responses:
+        '201':
+          description: Pedido criado
+
+  /api/pedidos/{id}:
+    get:
+      tags: [Pedidos]
+      x-eov-operation-handler: controllers/PedidosController
+      operationId: getPedido
+      summary: Obter pedido por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          examples:
+            one:
+              value: 1
+              summary: Retrieve Pedido id 1
+            two:
+              value: 2
+              summary: Retrieve Pedido id 2
+      responses:
+        '200':
+          description: Pedido encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pedido'
+    put:
+      tags: [Pedidos]
+      x-eov-operation-handler: controllers/PedidosController
+      operationId: updatePedido
+      summary: Atualizar pedido
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          examples:
+            one:
+              value: 1
+              summary: Update Pedido id 1
+            two:
+              value: 2
+              summary: Update Pedido id 2
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pedido'
+            examples:
+              PedidoExample01:
+                $ref: '#/components/examples/PedidoExample01'
+              PedidoExample02:
+                $ref: '#/components/examples/PedidoExample02'
+      responses:
+        '200':
+          description: Atualizado
+    delete:
+      tags: [Pedidos]
+      x-eov-operation-handler: controllers/PedidosController
+      operationId: deletePedido
+      summary: Apagar pedido
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          examples:
+            one:
+              value: 1
+              summary: Delete Pedido id 1
+            two:
+              value: 2
+              summary: Delete Pedido id 2
+      responses:
+        '204':
+          description: Removido
