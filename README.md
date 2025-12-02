@@ -1,7 +1,7 @@
 ## Food Delivery API
 
 Repositório usado para hospedar um projeto desenvolvido para Desenvolvimento Web I e Complementos de Base de Dados, no curso de Informática, na Univerdade da Maia.  
-Desenvolvido pelo grupo: 13
+Desenvolvido pelo grupo: inf25dw1g13
 * [Felipe Castilho](https://github.com/a047152)
 * [Juliana Moreira](https://github.com/julianaam13) 
 * [Marta Vieira](http://github.com/xmarta19)
@@ -9,14 +9,13 @@ Desenvolvido pelo grupo: 13
 
 ## Descrição curta do projeto
 
-O projeto tem como objetivo simular o funcionamento de um sistema de entregas de comida. Este foi desenvolvido através da utilização de uma aplicação e uma base de dados (3, e em MariaDB, neste caso).
+O projeto tem como objetivo simular o funcionamento de um sistema de entregas de comida. Este foi desenvolvido através da utilização de uma aplicação e  MariaDB com 1 base de dados master e 2 réplicas.
 
 ## Organização do Projeto
 
 * **Código Source** está em [src](src/).
 * **Capítulos do Trabalho** estão em [doc](doc/).
-* **O Documento da API** está em [OpenApi](api/openapi.yaml)
-* **O Repositório** do Docker está em [Docker](https://hub.docker.com/repositories/inf25dw1g13)
+* **O Documento da API** está em [openapi](api/openapi.yaml)
 
 ## Gallery
 
