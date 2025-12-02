@@ -10,7 +10,7 @@ Links para o projeto
 * [Repositório do Github](https://github.com/inf25dw1g13/FoodDeliveryAPI)
 * [Repositório do Docker](https://hub.docker.com/repositories/inf25dw1g13)
 
-## Descrição curta 
+## Descrição 
 
 O projeto tem como objetivo simular o funcionamento de um sistema de entregas de comida. Este foi desenvolvido através da utilização de uma aplicação e  MariaDB com 1 base de dados master e 2 réplicas.
 
