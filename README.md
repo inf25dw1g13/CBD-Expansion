@@ -35,15 +35,15 @@ Estas são as *libraries* utilizadas no trabalho:
 ## *Report*
 
 ### Apresentação do Projeto
-* Chapter 1: [Project presentation](doc/c1.md)
+* Chapter 1: [Apresentação do Projeto](doc/c1.md)
 ### Recursos
-* Chapter 2: [Resources](doc/c2.md)
+* Chapter 2: [Recursos](doc/c2.md)
 ### Produto
-* Chapter 3: [Product](doc/c3.md)
+* Chapter 3: [Produto](doc/c3.md)
 ### Apresentação
-* Chapter 4: [Presentation](doc/c4.md)
+* Chapter 4: [Apresentação](doc/c4.md)
 
 ## Grupo
-* Felipe Castilho ([@a047152](https://github.com/a047152))
-* Juliana Moreira ([@julianaam13](https://github.com/julianaam13))
-* Marta Vieira ([@xmarta19](http://github.com/xmarta19))
+* Felipe Castilho [GitHub](https://github.com/a047152) -> email: a047152@umaia.pt
+* Juliana Moreira [GitHub](https://github.com/julianaam13) -> email: a047188@umaia.pt
+* Marta Vieira [GutHub](http://github.com/xmarta19) -> email: a046756@umaia.pt
