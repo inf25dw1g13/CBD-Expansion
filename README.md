@@ -20,7 +20,7 @@ A [table](https://www.markdownguide.org/extended-syntax/#tables) may be usefull 
 
 | Cat Pic | Dog Pic |
 | ------------------------ | ------------------------ |
-| ![cat](doc/images/image03.png) | ![dog](doc/images/image04.png) |
+| ![cat](doc/images/arquitetura_api.png) | ![dog](doc/images/fluxo_dados.png) |
 | ![cat2](images/cat2.png) | ![dog2](images/dog2.png) |
 
 ## Technologies
