@@ -11,8 +11,8 @@ Este script testa as 4 propriedades ACID:
 4 testes para cada propriedade = 16 testes no total
 """
 
-import mysql.connector
-from mysql.connector import Error
+import mysql.connector # type: ignore
+from mysql.connector import Error # type: ignore
 import time
 import threading
 from decimal import Decimal
