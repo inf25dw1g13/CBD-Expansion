@@ -172,20 +172,10 @@ CREATE TABLE entregas (
     FOREIGN KEY (entregador_id) REFERENCES entregadores(id)
 );
 
-
-
-
--- Criar usuário para a API (usado pelo MaxScale)
-CREATE USER IF NOT EXISTS 'api_user'@'%' IDENTIFIED BY 'api_password';
-GRANT ALL PRIVILEGES ON food_delivery.* TO 'api_user'@'%';
-FLUSH PRIVILEGES;
-
-------------------------
-
-
+-----------------------------
 
 -- ======================================
--- TRIGGERS (importante)
+-- TRIGGERS (importante para as tabelas) (maybe eu faço outro ficheiro para isto)
 -- ======================================
 
 DELIMITER //
@@ -260,7 +250,7 @@ END//
 DELIMITER ;
 
 -- ======================================
--- VIEWS
+-- VIEWS - vista com informações completas dos pedidos [nao sei se vai ficar no trabalho ja que nao demos mas  é interessante]
 -- ======================================
 CREATE VIEW view_pedidos_completos AS
 SELECT 
@@ -290,3 +280,12 @@ JOIN codpostal cp_c ON c.codpostal = cp_c.codpostal
 JOIN restaurantes r ON p.restaurante_id = r.id
 JOIN codpostal cp_r ON r.codpostal = cp_r.codpostal
 LEFT JOIN entregadores e ON p.entregador_id = e.id;
+
+
+------------------------
+-- Criar usuário para a API (usado pelo MaxScale)
+CREATE USER IF NOT EXISTS 'api_user'@'%' IDENTIFIED BY 'api_password';
+GRANT ALL PRIVILEGES ON food_delivery.* TO 'api_user'@'%';
+FLUSH PRIVILEGES;
+
+
