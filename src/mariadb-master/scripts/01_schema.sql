@@ -5,10 +5,10 @@ CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY 'root_password';
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 
-DROP DATABASE IF EXISTS food_delivery;
-CREATE DATABASE IF NOT EXISTS food_delivery;
+DROP DATABASE IF EXISTS fooddb;
+CREATE DATABASE IF NOT EXISTS fooddb;
 
-USE food_delivery;
+USE fooddb;
 
 -- ======================================
 -- TABELA: codpostal 
