@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import { Admin, Resource } from "react-admin";
+import lb4Provider from "react-admin-lb4";
+import { LessonList, LessonEdit, LessonShow, LessonCreate } from "./Lists/LessonList.js";
+import { ScheduleList, ScheduleEdit, ScheduleShow, ScheduleCreate } from "./Lists/ScheduleList.js";
+import Dashboard from "./dashboard";
+import CastForEducationIcon from "@mui/icons-material/CastForEducation";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const dataProvider = lb4Provider("http://localhost:3000");
+
+const App = () => (
+  <Admin dashboard={Dashboard} dataProvider={dataProvider}>
+    <Resource
+      name="schedules"
+      icon={CalendarMonthIcon}
+      list={ScheduleList}
+      edit={ScheduleEdit}
+      show={ScheduleShow}
+      create={ScheduleCreate}
+    />
+    <Resource
+      name="lessons"
+      icon={CastForEducationIcon}
+      list={LessonList}
+      edit={LessonEdit}
+      show={LessonShow}
+      create={LessonCreate}
+    />
+  </Admin>
+);
 
 export default App;
